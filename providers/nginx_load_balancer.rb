@@ -38,11 +38,14 @@ action :before_deploy do
 
   template "#{node['nginx']['dir']}/sites-available/#{new_resource.application.name}.conf" do
     source new_resource.template ? new_resource.template : "load_balancer.conf.erb"
-    cookbook new_resource.template ? new_resource.cookbook_name : "application_nginx"
+    cookbook new_resource.template ? new_resource.cookbook_name.to_s : "application_nginx"
     owner "root"
     group "root"
     mode "644"
-    variables :resource => new_resource, :hosts => new_resource.find_matching_role(new_resource.application_server_role, false)
+    variables(:resource => new_resource,
+              :hosts => process_hosts(new_resource.hosts || new_resource.find_matching_role(new_resource.application_server_role, false)),
+              :application_socket => Array(new_resource.application_socket)
+             )
     notifies :reload, resources(:service => 'nginx')
   end
 
@@ -66,3 +69,17 @@ end
 action :after_restart do
 end
 
+
+protected
+
+def process_hosts(nodes)
+  nodes.map do |n|
+    if n.is_a?(String)
+      n
+    elsif n.attribute?('cloud')
+      n['cloud']['local_ipv4']
+    else
+      n['ipaddress']
+    end
+  end
+end
