@@ -1,6 +1,6 @@
 #
 # Author:: Noah Kantrowitz <noah@opscode.com>
-# Cookbook Name:: application_nginx
+# Cookbook Name:: z_application_nginx
 # Resource:: nginx_load_balancer
 #
 # Copyright:: 2011, Opscode, Inc <legal@opscode.com>

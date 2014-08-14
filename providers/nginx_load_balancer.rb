@@ -1,6 +1,6 @@
 #
 # Author:: Noah Kantrowitz <noah@opscode.com>
-# Cookbook Name:: application_nginx
+# Cookbook Name:: z_application_nginx
 # Provider:: nginx_load_balancer
 #
 # Copyright:: 2011, Opscode, Inc <legal@opscode.com>
@@ -38,7 +38,7 @@ action :before_deploy do
 
   template "#{node['nginx']['dir']}/sites-available/#{new_resource.application.name}.conf" do
     source new_resource.template ? new_resource.template : "load_balancer.conf.erb"
-    cookbook new_resource.template ? new_resource.cookbook_name.to_s : "application_nginx"
+    cookbook new_resource.template ? new_resource.cookbook_name.to_s : "z_application_nginx"
     owner "root"
     group "root"
     mode "644"
