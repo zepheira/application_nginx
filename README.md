@@ -1,4 +1,4 @@
-z_application_nginx Cookbook
+application_z_nginx Cookbook
 ============================
 This cookbook is designed to be able to deploy and configure an nginx reverse proxy in front of one or more application servers, which are also managed with the `application` cookbook.
 
