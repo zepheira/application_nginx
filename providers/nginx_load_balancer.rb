@@ -22,7 +22,7 @@ include Chef::Mixin::LanguageIncludeRecipe
 
 action :before_compile do
 
-  include_recipe 'nginx'
+  include_recipe 'chef_nginx::default'
 
   new_resource.application_server_role "#{new_resource.application.name}_application_server" unless new_resource.application_server_role
 
@@ -49,10 +49,12 @@ action :before_deploy do
     notifies :reload, resources(:service => 'nginx')
   end
 
-  nginx_site "#{new_resource.application.name}.conf"
+  nginx_site "#{new_resource.application.name}.conf" do
+    action :enable
+  end
 
   nginx_site "default" do
-    enable false
+    action :disable
   end
 
 end
